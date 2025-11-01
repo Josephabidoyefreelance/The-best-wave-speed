@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WaveSpeed Seedream</title>
+    <style>
+      body {
+        font-family: Arial;
+        max-width: 800px;
+        margin: 2rem auto;
+      }
+      input,
+      textarea {
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+      }
+      button {
+        padding: 0.7rem 1.5rem;
+      }
+      .output {
+        margin-top: 2rem;
+      }
+      .record {
+        border: 1px solid #ccc;
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>WaveSpeed Seedream Generator</h1>
+
+    <form id="generateForm">
+      <label>Prompt:</label>
+      <textarea name="prompt" required></textarea>
+
+      <label>Subject Image URL:</label>
+      <input type="text" name="subject" required />
+
+      <label>Reference Image URLs (comma separated):</label>
+      <input type="text" name="references" />
+
+      <label>Width:</label>
+      <input type="number" name="width" value="1920" required />
+
+      <label>Height:</label>
+      <input type="number" name="height" value="1080" required />
+
+      <label>Batch Count:</label>
+      <input type="number" name="batch" value="1" required />
+
+      <button type="submit">Generate</button>
+    </form>
+
+    <div class="output" id="output"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

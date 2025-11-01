@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WaveSpeed Seedream Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #1e1e2f;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background: #2c2c3c;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        width: 400px;
+      }
+      h1 {
+        text-align: center;
+        color: #00ffe0;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+      }
+      input:focus,
+      textarea:focus {
+        border: 2px solid #00ffe0;
+      }
+      button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+        background: #00ffe0;
+        border: none;
+        border-radius: 6px;
+        color: #1e1e2f;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      button:hover {
+        background: #00c7b0;
+        transform: scale(1.05);
+      }
+      #outputMessage {
+        margin-top: 15px;
+        text-align: center;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Seedream Generator</h1>
+      <form id="generateForm">
+        <label for="prompt">Prompt</label>
+        <textarea
+          id="prompt"
+          rows="3"
+          placeholder="Enter your prompt"
+        ></textarea>
+
+        <label for="subject">Subject Image URL</label>
+        <input type="text" id="subject" placeholder="Enter subject image URL" />
+
+        <label for="references">Reference Image URLs (comma separated)</label>
+        <input type="text" id="references" placeholder="Enter reference URLs" />
+
+        <label for="width">Width</label>
+        <input type="number" id="width" value="1920" />
+
+        <label for="height">Height</label>
+        <input type="number" id="height" value="1080" />
+
+        <label for="batchCount">Batch Count</label>
+        <input type="number" id="batchCount" value="1" />
+
+        <button type="submit">Generate</button>
+        <div id="outputMessage"></div>
+      </form>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
