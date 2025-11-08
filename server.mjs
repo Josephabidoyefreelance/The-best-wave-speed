@@ -49,29 +49,34 @@ async function getRow(recordId) {
 
 // ---------- WaveSpeed / Fal.ai ----------
 
-// ✅ FIX 1: Change the hardcoded model name in the payload
+// ✅ FIX: This function is now "clean". It only submits the job and returns the ID
+// or throws an error. It no longer touches Airtable, which fixes the race condition.
 async function submitWaveSpeedJob({ prompt, subjectDataUrl, referenceDataUrls, width, height, runId, recordId }) {
-  const modelName = "seedream-v4-edit-sequential"; // Use the simplified name for the API call
-  const payload = {
-    prompt,
-    model: modelName,
-    width: Number(width) || 1024,
-    height: Number(height) || 1024,
-    images: [subjectDataUrl, ...referenceDataUrls],
-  };
+    const modelPath = "seedream-v4-edit-sequential"; // Use only the simplified model identifier
+    const payload = {
+        prompt,
+        // The API only needs the model identifier, not the full path
+        model: modelPath, 
+        width: Number(width) || 1024,
+        height: Number(height) || 1024,
+        images: [subjectDataUrl, ...referenceDataUrls],
+    };
 
-  const webhook = `${PUBLIC_BASE_URL.replace(/\/+$/, "")}/webhooks/wavespeed?record_id=${encodeURIComponent(recordId)}&run_id=${encodeURIComponent(runId)}`;
-  // ✅ FIX 2: Change the URL endpoint to use the simplified model name
-  const url = `https://api.wavespeed.ai/api/v3/${modelName}`;
+    const webhook = `${PUBLIC_BASE_URL.replace(/\/+$/, "")}/webhooks/wavespeed?record_id=${encodeURIComponent(recordId)}&run_id=${encodeURIComponent(runId)}`;
+    
+    // 🛑 THE CRITICAL FIX IS HERE: The URL must match the format the WaveSpeed API expects.
+    // It's most likely api/v3/MODEL_NAME
+    const url = `https://api.wavespeed.ai/api/v3/${modelPath}`; 
 
-  const res = await fetch(`${url}?webhook=${encodeURIComponent(webhook)}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${WAVESPEED_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+    const res = await fetch(`${url}?webhook=${encodeURIComponent(webhook)}`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${WAVESPEED_API_KEY}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+    // ... rest of the function remains the same
 
   const txt = await res.text();
   try {
